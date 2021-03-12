@@ -1,4 +1,5 @@
 showData(data);
+d3.selectAll('input').on('change', handleChange);
 d3.select('button').on('click', handleClick);
 
 function showData(data) {
@@ -12,9 +13,18 @@ function showData(data) {
     });
 };
 
-function handleClick() {
-    var date = d3.select('input').property('value');
+var filteredData = [ ...data];
 
-    var filteredData = data.filter(obj => obj.datetime == date);
+function handleChange(data) {
+    var key = d3.select(this).property('id');
+    var val = d3.select(this).property('value');
+
+    filteredData = filteredData.filter(obj=>obj[key]== val);
+    showData(filteredData);
+};
+
+function handleClick() {
+    d3.selectAll('input').property('value','');
+    filteredData = [ ...data];
     showData(filteredData);
 };
